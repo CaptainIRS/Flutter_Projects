@@ -1,5 +1,5 @@
 name: hacker_news_app
-description: Hacker News App
+description: A new Flutter project.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -14,10 +14,9 @@ description: Hacker News App
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
-  url_launcher: any
   flutter:
     sdk: flutter
 
