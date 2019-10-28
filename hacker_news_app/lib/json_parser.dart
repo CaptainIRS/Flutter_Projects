@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'model/Article.dart';
+import 'package:hacker_news_app/model/article.dart';
 
 List<int> parseTopStories(String jsonString) {
-  final parsed = jsonDecode(jsonString);
-  final listOfInts = List<int>.from(parsed);
-  return listOfInts;
+  var parsed = jsonDecode(jsonString);
+  return List<int>.from(parsed);
 }
 
 Article parseArticle(String jsonString) {
-  return Article.fromJson(jsonString);
+  Article article = Article.fromJson(jsonString);
+  return article;
 }
