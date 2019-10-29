@@ -75,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildItem(Article article) {
     DateTime time = DateTime.fromMillisecondsSinceEpoch(article.time * 1000);
     return Card(
+      color: Color.fromRGBO(230, 255, 230, 1),
       borderOnForeground: true,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(
             article.title ?? 'null',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 20,
             ),
           ),
           children: <Widget>[
@@ -92,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 0, 0, 0),
-                  child: Text(DateFormat('dd MMMM, yyyy h:m:s a')
+                  child: Text(DateFormat('dd MMMM, yyyy - h:m:s a')
                       .format(time)
                       .toString()),
                 ),
