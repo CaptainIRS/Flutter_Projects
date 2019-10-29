@@ -21,6 +21,7 @@ dependencies:
   built_collection: any
   built_value: any
   http: any
+  intl: ^0.16.0
   flutter:
     sdk: flutter
 
