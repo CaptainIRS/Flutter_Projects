@@ -39,12 +39,23 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
+        itemCount: 376,
         itemBuilder: (BuildContext context, int id) {
           return FutureBuilder<Article>(
             builder: (BuildContext context, AsyncSnapshot<Article> snapshot) {
               if (snapshot.hasData) {
                 return _buildItem(snapshot.data);
-              } else
+              } else if (snapshot.hasError)
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    snapshot.error.toString(),
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                );
+              else
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Center(child: CircularProgressIndicator()),
@@ -80,6 +91,13 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ExpansionTile(
+          leading: Text(
+            _ids.indexOf(article.id).toString(),
+            style: TextStyle(
+              fontSize: 24,
+              color: Colors.green,
+            ),
+          ),
           backgroundColor: Color.fromRGBO(230, 255, 230, 100),
           title: Text(
             article.title ?? 'null',
