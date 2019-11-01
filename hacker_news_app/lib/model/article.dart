@@ -63,6 +63,7 @@ abstract class Article implements Built<Article, ArticleBuilder> {
   }
 
   static Serializer<Article> get serializer => _$articleSerializer;
+
 }
 
 class ArticleType extends EnumClass {
