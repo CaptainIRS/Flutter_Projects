@@ -26,14 +26,12 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       try {
         if (currentState is ArticleUninitialized) {
           final articles = await _articleRepository.getTopStories(0, 20);
-          print("articles length : " + articles.length.toString());
           yield ArticleLoaded(
             articles: articles,
             hasReachedMax: false,
           );
         }
         if (currentState is ArticleLoaded) {
-          print("articles length : " + currentState.articles.length.toString());
           final articles = await _articleRepository.getTopStories(
               currentState.articles.length, 20);
           yield (articles.isEmpty)
