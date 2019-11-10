@@ -8,7 +8,7 @@ void main() {
     final client = Client();
     final articleRepository = ArticleRepository(
         hackerNewsApiClient: HackerNewsApiClient(httpClient: client));
-    List<Article> articles = await articleRepository.getTopStories();
+    List<Article> articles = await articleRepository.getTopStories(0, 10);
     expect(articles[0].title.split(' ')[0], 'Undercover');
   }, timeout: Timeout(Duration(seconds: 100)));
 }
