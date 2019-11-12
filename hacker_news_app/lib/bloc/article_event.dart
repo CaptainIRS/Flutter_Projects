@@ -7,6 +7,12 @@ abstract class ArticleEvent extends Equatable {
 
 class FetchTopStories extends ArticleEvent {}
 
+class FetchBestStories extends ArticleEvent {}
+
 class FetchNewStories extends ArticleEvent {}
 
-class FetchAskHN extends ArticleEvent {}
+class FetchAskHnStories extends ArticleEvent {}
+
+class FetchShowHnStories extends ArticleEvent {}
+
+class FetchJobStories extends ArticleEvent {}

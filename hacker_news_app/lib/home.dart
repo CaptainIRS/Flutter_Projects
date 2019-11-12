@@ -5,7 +5,6 @@ import 'package:hacker_news_app/bloc/bloc.dart';
 import 'package:hacker_news_app/ui/article_widget.dart';
 
 class HomePage extends StatefulWidget {
-
   final ArticleEvent event;
 
   @override
@@ -15,7 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final _scrollController = ScrollController();
   final _scrollThreshold = 10.0;
   double maxScrollExtent = 0;
@@ -34,34 +32,36 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ArticleBloc, ArticleState>(
-        builder: (context, state) {
-          if (state is ArticleUninitialized) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is ArticleError) {
-            return Center(
-              child: Text("Failed to fetch articles"),
-            );
-          }
-          if (state is ArticleLoaded) {
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                return index >= state.articles.length
-                    ? BottomLoader()
-                    : ArticleWidget(article: state.articles[index]);
-              },
-              itemCount: state.hasReachedMax
-                  ? state.articles.length
-                  : state.articles.length + 1,
-              controller: _scrollController,
-            );
-          }
-          return null;
-        }
-    );
+    return BlocBuilder<ArticleBloc, ArticleState>(builder: (context, state) {
+      if (state is ArticleUninitialized) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (state is ArticleError) {
+        return Center(
+          child: Text("Failed to fetch articles"),
+        );
+      }
+      if (state is ArticleLoaded) {
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            return index >= state.articles.length
+                ? ((state.hasReachedMax)
+                ? ListTile(
+              title: Text("End"),
+            )
+                : BottomLoader())
+                : ArticleWidget(article: state.articles[index]);
+          },
+          itemCount: state.hasReachedMax
+              ? state.articles.length
+              : state.articles.length + 1,
+          controller: _scrollController,
+        );
+      }
+      return null;
+    });
   }
 
   @override
@@ -80,5 +80,4 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
-
 }

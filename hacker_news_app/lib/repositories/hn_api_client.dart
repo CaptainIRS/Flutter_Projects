@@ -12,11 +12,9 @@ class HackerNewsApiClient {
 
   Future<List<int>> fetchIds(String category) async {
     final url = "$baseUrl/v0/$category.json";
-    print(category);
     final response = await this.httpClient.get(url);
     if (response.statusCode != 200)
-      throw Exception("${response.statusCode} error when fetching top stories");
-    print(response.body);
+      throw Exception("${response.statusCode} error when fetching articles");
     return List<int>.from(json.jsonDecode(response.body));
   }
 

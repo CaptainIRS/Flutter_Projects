@@ -23,10 +23,12 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   @override
   Stream<ArticleState> mapEventToState(ArticleEvent event) async* {
     final currentState = state;
-    fetch = (event is FetchTopStories)
-        ? _articleRepository.getTopStories
-        : (event is FetchNewStories)
-        ? _articleRepository.getNewStories
+    fetch = (event is FetchTopStories) ? _articleRepository.getTopStories
+        : (event is FetchNewStories) ? _articleRepository.getNewStories
+        : (event is FetchAskHnStories) ? _articleRepository.getAskHnStories
+        : (event is FetchShowHnStories) ? _articleRepository.getShowHnStories
+        : (event is FetchBestStories) ? _articleRepository.getBestStories
+        : (event is FetchJobStories) ? _articleRepository.getJobStories
         : null;
     if (fetch != null && !_hasReachedMax(currentState)) {
       try {
@@ -40,8 +42,10 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
         if (currentState is ArticleLoaded) {
           final articles = await fetch(
               currentState.articles.length, 20);
-          yield (articles.isEmpty)
-              ? currentState.copyWith(hasReachedMax: true)
+          print(articles?.length);
+          yield (articles == null || articles.isEmpty)
+              ? currentState.copyWith(
+              articles: currentState.articles, hasReachedMax: true)
               : ArticleLoaded(
               articles: currentState.articles + articles, hasReachedMax: false);
         }

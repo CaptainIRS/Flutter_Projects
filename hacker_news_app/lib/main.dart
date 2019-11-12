@@ -29,15 +29,19 @@ class App extends StatelessWidget {
 
 class ArticlesPage extends StatelessWidget {
   final ArticleEvent event;
-  String title;
 
   ArticlesPage({this.event});
 
   @override
   Widget build(BuildContext context) {
-    title = (event is FetchTopStories)
-        ? "Top Stories"
-        : (event is FetchNewStories) ? "New Stories" : null;
+    String title =
+    (event is FetchTopStories) ? "Top Stories"
+        : (event is FetchNewStories) ? "New Stories"
+        : (event is FetchBestStories) ? "Best Stories"
+        : (event is FetchAskHnStories) ? "Ask HN"
+        : (event is FetchShowHnStories) ? "Show HN"
+        : (event is FetchJobStories) ? "Job Stories"
+        : null;
     return Scaffold(
       appBar: AppBar(
         title: Text(title ?? 'null'),
@@ -90,6 +94,14 @@ class ArticlesPage extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        ArticlesPage(
+                          event: FetchBestStories(),
+                        ),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -120,6 +132,14 @@ class ArticlesPage extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        ArticlesPage(
+                          event: FetchAskHnStories(),
+                        ),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -131,6 +151,33 @@ class ArticlesPage extends StatelessWidget {
               ),
               onTap: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        ArticlesPage(
+                          event: FetchShowHnStories(),
+                        ),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: Text(
+                "Job Stories",
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        ArticlesPage(
+                          event: FetchJobStories(),
+                        ),
+                  ),
+                );
               },
             ),
           ],
