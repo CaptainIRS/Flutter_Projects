@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   final http.Client httpClient;
   ArticleRepository _articleRepository;
+  Function(int, int) fetch;
 
   ArticleBloc({@required this.httpClient}) {
     _articleRepository = ArticleRepository(
@@ -22,17 +23,22 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   @override
   Stream<ArticleState> mapEventToState(ArticleEvent event) async* {
     final currentState = state;
-    if (event is Fetch && !_hasReachedMax(currentState)) {
+    fetch = (event is FetchTopStories)
+        ? _articleRepository.getTopStories
+        : (event is FetchNewStories)
+        ? _articleRepository.getNewStories
+        : null;
+    if (fetch != null && !_hasReachedMax(currentState)) {
       try {
         if (currentState is ArticleUninitialized) {
-          final articles = await _articleRepository.getTopStories(0, 20);
+          final articles = await fetch(0, 20);
           yield ArticleLoaded(
             articles: articles,
             hasReachedMax: false,
           );
         }
         if (currentState is ArticleLoaded) {
-          final articles = await _articleRepository.getTopStories(
+          final articles = await fetch(
               currentState.articles.length, 20);
           yield (articles.isEmpty)
               ? currentState.copyWith(hasReachedMax: true)

@@ -5,4 +5,8 @@ abstract class ArticleEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class Fetch extends ArticleEvent {}
+class FetchTopStories extends ArticleEvent {}
+
+class FetchNewStories extends ArticleEvent {}
+
+class FetchAskHN extends ArticleEvent {}

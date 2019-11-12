@@ -6,6 +6,7 @@ import 'hn_api_client.dart';
 class ArticleRepository {
   final HackerNewsApiClient hackerNewsApiClient;
   List<int> _topStoriesIds = [];
+  List<int> _newStoriesIds = [];
 
   ArticleRepository({@required this.hackerNewsApiClient})
       : assert(hackerNewsApiClient != null);
@@ -15,5 +16,12 @@ class ArticleRepository {
       _topStoriesIds = await hackerNewsApiClient.fetchIds("topstories");
     return await hackerNewsApiClient.fetchArticles(
         _topStoriesIds.sublist(startIndex, startIndex + count));
+  }
+
+  Future<List<Article>> getNewStories(int startIndex, int count) async {
+    if (_newStoriesIds.isEmpty)
+      _newStoriesIds = await hackerNewsApiClient.fetchIds("newstories");
+    return await hackerNewsApiClient.fetchArticles(
+        _newStoriesIds.sublist(startIndex, startIndex + count));
   }
 }
